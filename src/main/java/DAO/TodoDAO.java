@@ -178,6 +178,7 @@ public class TodoDAO {
             // commit transaction
             transaction.commit();
         } catch (Exception e) {
+            System.err.println("that bai");
             if (transaction != null) {
                 transaction.rollback();
             }

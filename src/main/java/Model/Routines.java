@@ -96,6 +96,11 @@ public class Routines  implements java.io.Serializable {
         this.activities = activities;
     }
 
+    @Override
+    public String toString() {
+        return "Routines{" + "rid=" + rid  + ", rname=" + rname + '}';
+    }
+
 
 
 
