@@ -32,7 +32,7 @@
         <script src="js/sidebar.js" type="text/javascript"></script>
         <script src="js/routine.js" type="text/javascript"></script>
     </head>
-    <body onload="initCalendar()">
+    <body>
     <%
     Users user = (Users)session.getAttribute("user");
     if(user == null ){ %>
@@ -159,6 +159,13 @@
                                 <div class="container-fluid routine-list">
                                     <%
                                         List<Routines> listofRoutineses = RoutineDAO.getAllRoutineses(user.getUserid());
+                                        String rridString= (String)request.getAttribute("rid-resp");
+                                        System.out.println(rridString + "    rrid");
+                                        int rid = listofRoutineses.get(0).getRid();
+                                        if(rridString!=null){
+                                            rid=Integer.parseInt(rridString);
+                                        }
+                                        System.out.println(rid+ "    rid");
                                         if(listofRoutineses!=null){
                                         for(int i=0;i<listofRoutineses.size();i++) {
                                     %>
@@ -179,14 +186,16 @@
                             <div class="col-sm-8">
                                 <div class="container-fluid routine-detail-list">
                                     <%
-                                    if(listofRoutineses !=null){
+                                        if(listofRoutineses !=null){
                                         List<Activity> listofActivitys = null;
+                                        
                                         listofActivitys = (ArrayList<Activity>)request.getAttribute("listofActivitys");
                                         if(listofActivitys==null){
-                                            listofActivitys = RoutineDAO.getActivitys(listofRoutineses.get(0).getRid());
+                                            listofActivitys = RoutineDAO.getActivitys(rid);
                                         }
                                         for(int j=0;j<listofActivitys.size();j++) {
                                     %>
+                                    <input type="hidden" value="<%= rid %>" name="rid" id="rid">
                                     <div class="group-routine-detail">
                                         <div>
                                             <%
@@ -197,8 +206,8 @@
                                             <span><%= timestart %> - <%= timesend %></span>
                                             <h5><%= listofActivitys.get(j).getActivity() %></h5>
                                         </div>
-                                        <button class="btn btn-hidden-bgr middle" id="routine-edit"  data-toggle="modal" data-target="#editroutine"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                                        <a  class="btn btn-hidden-bgr middle" id="routine-delete"><i class="fa fa-trash" ></i></a>
+                                            <button class="btn btn-hidden-bgr middle" id="routine-edit" onclick="fillformEditActivity('<%= rid %>','<%= listofActivitys.get(j).getActivity() %>','<%= timestart %>','<%= timesend %>','<%= listofActivitys.get(j).getAcid()  %>')"  data-toggle="modal" data-target="#editact"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                            <a onclick="deleteactivity('<%= listofActivitys.get(j).getAcid() %>');" class="btn btn-hidden-bgr middle" id="routine-delete"><i class="fa fa-trash" ></i></a>
                                     </div>
                                     <hr>
                                     <% } } %>
@@ -378,8 +387,137 @@
 
                 </div>
             </div>
-        </div>                           
-                                
+        </div>   
+        <!-- Modal add activity -->
+        <div class="modal" id="addact">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Activity</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!------ Start card add task ----->
+                        <div class= "card todo-block container mt-3">
+                            <form action="AddActivity" method="get">
+                                <input type="hidden" name="rid" value="<%= rid %>">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Activity</span>
+                                    </div>
+                                    <input type="text" id="activity-atv" name="activity-atv" class="form-control">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Category</span>
+                                    </div>
+                                    <select class="form-control" id="activity-add-routine" name="activity-add-routine">
+                                        <%
+                                         for(int i=0;i<listofRoutineses.size();i++)
+                                         {
+                                        %>
+                                        <option value="<%= listofRoutineses.get(i).getRid()%>" <%if (listofRoutineses.get(i).getRid() == rid){%> checked <%}%> ><%= listofRoutineses.get(i).getRname() %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Time Begin</span>
+                                    </div>
+                                    <input type="time" id="activity_timebegin" name="activity_timebegin" class="form-control">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Time End</span>
+                                    </div>
+                                     <input type="time" id="activity_timeend" name="activity_timeend" class="form-control"> 
+                                </div>
+                                <input type="submit" id="btn-add-activity-task" class="btn btn-outline-info btn-lg btn-block" value="Add">
+                            </form>
+                        </div>
+                        <!---   End card add task   -->
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!---------- End modal add Activity task ---------->
+        
+        
+        
+        
+        <!---------------------------------KHOAPHAN1----------------------------------------------->
+        <div class="modal" id="editact">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Activity</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!------ Start card add task ----->
+                        <div class= "card todo-block container mt-3">
+                            <form action="EditActivity" method="get">
+                                <input type="hidden" id="activity-edit-idatv" name="activity_id">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Activity</span>
+                                    </div>
+                                    <input type="text" id="activity-atv-edit" name="activity-edit" class="form-control">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Category</span>
+                                    </div>
+                                    <select class="form-control" id="activity-edit-routine" name="activity-edit-routine">
+                                        <%
+                                         for(int i=0;i<listofRoutineses.size();i++)
+                                         {
+                                        %>
+                                        <option value="<%= listofRoutineses.get(i).getRid()%>" <%if (listofRoutineses.get(i).getRid()==rid){%> checked <%}%>><%= listofRoutineses.get(i).getRname() %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Time Begin</span>
+                                    </div>
+                                    <input type="time" id="activity_timebegin_edit" name="time_begin" class="form-control">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Time End</span>
+                                    </div>
+                                     <input type="time" id="activity_timeend-edit" name="activity_timeend" class="form-control"> 
+                                </div>
+                                <input type="submit" id="btn-add-activity-task" class="btn btn-outline-info btn-lg btn-block" value="OK">
+                            </form>
+                        </div>
+                        <!---   End card add task   -->
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div> 
+        <!---------------------------------KHOAPHAN1----------------------------------------------->                       
     </div>
   </main>
   <!-- page-content" -->
@@ -431,20 +569,7 @@
         window.setInterval("updateCalendar()", 1000);
     }
     $(function(){
-        $('.check').click(function(){
-            var list = document.getElementsByClassName('task-group mb-1');
-            console.log(list.length)
-            for(i=0;i<list.length;i++){
-                var a = list[i].getElementsByClassName('check');
-                if(a[0].checked === true){
-                    list[i].style.opacity="0.5";
-                }
-                if(a[0].checked === false){
-                    list[i].style.opacity="1";
-                }
-            }
-        });
-
+        initCalendar();
 
     });
 </script>

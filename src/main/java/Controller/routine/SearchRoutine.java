@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.type.PostgresUUIDType;
 
 /**
  *
@@ -35,6 +36,8 @@ public class SearchRoutine extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int id = Integer.parseInt(request.getParameter("rid"));
+        System.out.println(id+ "  id ne");
+        request.setAttribute("rid-resp", String.valueOf(id));
         List<Activity> listofActivitys = RoutineDAO.getActivitys(id);
         request.setAttribute("listofActivitys", listofActivitys);
         RequestDispatcher dp=getServletContext().getRequestDispatcher("/routine.jsp");

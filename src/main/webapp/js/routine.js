@@ -13,3 +13,14 @@ function fillformEditRt(id,des){
     document.getElementById("routine-edit-frm").value = des;
     document.getElementById("routine-edit-id").value = id;
 }
+function deleteactivity(id){
+        if (confirm('Bạn có chắc muốn xóa?')){
+            location.assign('DeleteActivity?acid='+id);
+        }
+    }
+function fillformEditActivity(idrou,act,timebegin,timeend,idatv){
+    document.getElementById("activity-edit-idatv").value = idatv;
+    document.getElementById("activity-atv-edit").value = act;
+    document.getElementById("activity_timebegin_edit").value = timebegin;
+    document.getElementById("activity_timeend-edit").value = timeend;
+}

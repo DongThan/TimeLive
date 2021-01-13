@@ -92,6 +92,18 @@
         <servlet-name>EditRoutine</servlet-name>
         <servlet-class>Controller.routine.EditRoutine</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddActivity</servlet-name>
+        <servlet-class>Controller.routine.AddActivity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditActivity</servlet-name>
+        <servlet-class>Controller.routine.EditActivity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteActivity</servlet-name>
+        <servlet-class>Controller.routine.DeleteActivity</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -184,6 +196,18 @@
     <servlet-mapping>
         <servlet-name>EditRoutine</servlet-name>
         <url-pattern>/EditRoutine</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddActivity</servlet-name>
+        <url-pattern>/AddActivity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditActivity</servlet-name>
+        <url-pattern>/EditActivity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteActivity</servlet-name>
+        <url-pattern>/DeleteActivity</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
