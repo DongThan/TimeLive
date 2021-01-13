@@ -14,12 +14,6 @@
         <property name="rname" type="string">
             <column name="rname" length="100" not-null="true" />
         </property>
-        <set name="weeklies" table="weekly" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="routineid" />
-            </key>
-            <one-to-many class="Model.Weekly" />
-        </set>
         <set name="activities" table="activity" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="routineid" not-null="true" />

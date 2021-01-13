@@ -116,15 +116,15 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="calander.jsp">
                     <i class="fa fa-calendar"></i>
                     <span>Calendar</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Setting</span>
+                  <a href="countdown.jsp">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Countdown</span>
                   </a>
                 </li>
             </ul>
