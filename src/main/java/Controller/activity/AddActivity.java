@@ -44,11 +44,13 @@ public class AddActivity extends HttpServlet {
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String atv = request.getParameter("activity-atv");
+        String atv = request.getParameter("activity-edit-act");
+        System.out.println(Integer.parseInt(request.getParameter("activity-add-routine")));
+        System.out.println("asdjkasjd");
         Routines activity_tag = RoutineDAO.getRoutine(Integer.parseInt(request.getParameter("activity-add-routine")));
-        Date timebegin_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity_timebegin"));
+        Date timebegin_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity-add-timebegin"));
         //String timebegin = request.getParameter("date_todo");
-        Date timeend_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity_timeend"));
+        Date timeend_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity-add-timend"));
         //String timeend = request.getParameter("timeend_routine");
         
         Activity at = new Activity();

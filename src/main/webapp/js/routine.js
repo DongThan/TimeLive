@@ -13,3 +13,11 @@ function fillformEditRt(id,des){
     document.getElementById("routine-edit-frm").value = des;
     document.getElementById("routine-edit-id").value = id;
 }
+function fillEditAct(id,timeend,timestart,act){
+    
+    document.getElementById("editac-aid").value=id;
+    document.getElementById("activity_timebegin_edit").value=timestart;
+    document.getElementById("activity_timeend_edit").value=timeend;
+    document.getElementById("activity-atv_edit").value=act;
+    
+}

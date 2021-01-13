@@ -18,22 +18,23 @@ import org.hibernate.Transaction;
  */
 public class RoutineDAO {
     public static List<Routines> getAllRoutineses(int id) {
-		Transaction transaction = null;
-		List<Routines> listOfrt = null;
-		System.out.println("load routine");
-		String query = "from Routines where userid = :user";
-		
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			listOfrt = session.createQuery(query).setParameter("user", id).getResultList();
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}
-		return listOfrt;
+            Transaction transaction = null;
+            List<Routines> listOfrt = null;
+            System.out.println("load routine");
+            String query = "from Routines where userid = :user";
+            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+            Session session = sessionFactory.openSession();
+            try {
+                    transaction = session.beginTransaction();
+                    listOfrt = session.createQuery(query).setParameter("user", id).getResultList();
+                    transaction.commit();
+            } catch (Exception e) {
+                    if (transaction != null) {
+                            transaction.rollback();session.close();
+                    }
+                    e.printStackTrace();session.close();
+            }
+            return listOfrt;
 	}
     public static Routines getRoutine(int id) {
 
@@ -47,34 +48,35 @@ public class RoutineDAO {
             // get an user object
             td = (Routines) session.get(Routines.class, id);
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
         return td;
     }
     public static List<Activity> getActivitys(int id){
         Transaction transaction = null;
-		List<Activity> listOfrt = null;
-		System.out.println("load routine");
-		String query = "from Activity where routineid = :id";
-		
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			listOfrt = session.createQuery(query).setParameter("id", id).getResultList();
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}
-                if(listOfrt!=null){
-                    System.out.println(listOfrt.size());
-                }
-		return listOfrt;
+        List<Activity> listOfrt = null;
+        System.out.println("load routine");
+        String query = "from Activity where routineid = :id";
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try {
+                transaction = session.beginTransaction();
+                listOfrt = session.createQuery(query).setParameter("id", id).getResultList();
+                transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                    transaction.rollback();session.close();
+            }
+            e.printStackTrace();
+        }
+        if(listOfrt!=null){
+            System.out.println(listOfrt.size());session.close();
+        }
+        return listOfrt;
     }
     public static void updateRoutine(Routines rt) { 
         Transaction transaction = null;
@@ -88,11 +90,11 @@ public class RoutineDAO {
             session.update(rt);
             System.out.println("Update rt sussess");
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             System.out.println("That bai");
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
     }
@@ -112,10 +114,10 @@ public class RoutineDAO {
                 System.err.println("Delete success");
             }
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
     }

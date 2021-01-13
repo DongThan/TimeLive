@@ -6,10 +6,17 @@
 package Controller.activity;
 
 import DAO.ActivityDAO;
+import DAO.RoutineDAO;
 import Model.Activity;
+import Model.Routines;
 import Model.Users;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,23 +38,26 @@ public class EditActivity extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.text.ParseException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        String activity_edit = request.getParameter("activity-edit");
-        String timebegin_edit = request.getParameter("time_begin");
-        request.setAttribute("time_begin_edit", timebegin_edit);
-        String timeend_edit = request.getParameter("time_end");
-        request.setAttribute("time_end_edit", timeend_edit);
-        
-        Users user = (Users)session.getAttribute("user");
-        int id = Integer.parseInt(request.getParameter("activity_id"));      
-        Activity atv = ActivityDAO.getActivity(id);
-        ActivityDAO.updateActivity(atv);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/activity.jsp");
-        dispatcher.forward(request, response);
+        String name = request.getParameter("activity-atv_edit23");
+        Date timebegin_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity_timebegin"));
+        //String timebegin = request.getParameter("date_todo");
+        Date timeend_routine = new SimpleDateFormat("hh:mm").parse(request.getParameter("activity_timeend"));
+        int id = Integer.parseInt(request.getParameter("aid"));
+        Activity at = ActivityDAO.getActivity(id);
+        at.setActivity(name);
+        at.setTimestart(timebegin_routine);
+        at.setTimeend(timeend_routine);
+        int rid =Integer.parseInt(request.getParameter("activity-add-routissne"));
+        Routines r = RoutineDAO.getRoutine(rid);
+        at.setRoutines(r);
+        ActivityDAO.updateActivity(at);
+        RequestDispatcher dp=getServletContext().getRequestDispatcher("/routine.jsp");
+        dp.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,7 +72,11 @@ public class EditActivity extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(EditActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -76,7 +90,11 @@ public class EditActivity extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(EditActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -159,9 +159,13 @@
                                 <div class="container-fluid routine-list">
                                     <%
                                         List<Routines> listofRoutineses = RoutineDAO.getAllRoutineses(user.getUserid());
+                                        
                                         if(listofRoutineses!=null){
                                         for(int i=0;i<listofRoutineses.size();i++) {
                                     %>
+                                    <script>
+                                        console.log('<%=listofRoutineses.size()               %>');
+                                    </script>
                                     <div class="group-routine" >
                                         <input type="hidden" value="<%= listofRoutineses.get(i).getRid() %>">
                                         <span onclick="location.assign('SearchRoutine?rid=<%= listofRoutineses.get(i).getRid() %>');"><%= listofRoutineses.get(i).getRname() %></span>
@@ -198,7 +202,10 @@
                                             <h5><%= listofActivitys.get(j).getActivity() %></h5>
                                             
                                         </div>
-                                        <button class="btn btn-hidden-bgr middle" id="activity-edit"  data-toggle="modal" data-target="#editactivity"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                            <button class="btn btn-hidden-bgr middle" id="activity-edit"  data-toggle="modal" data-target="#editactivity" onclick="fillEditAct('<%=listofActivitys.get(j).getAcid()                              %>',
+                                                        '<%=timesend                         %>',
+                                                        '<%=timestart                            %>',
+                                                        '<%= listofActivitys.get(j).getActivity() %>')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                         <a  class="btn btn-hidden-bgr middle" id="activity-delete"><i class="fa fa-trash" ></i></a>
                                     </div>
                                     <hr>
@@ -324,7 +331,7 @@
                     <div class="modal-body">
                         <!------ Start card add task ----->
                         <div class= "card todo-block container mt-3">
-                            <form action="AddRoutine" method="get">
+                            <form action="AddRoutine" method="post">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Routine</span>
@@ -360,7 +367,7 @@
                     <div class="modal-body">
                         <!------ Start card add task ----->
                         <div class= "card todo-block container mt-3">
-                            <form action="EditRoutine" method="get">
+                            <form action="EditRoutine" method="post">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Routine</span>
@@ -411,12 +418,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Category</span>
                                     </div>
-                                    <select class="form-control" id="activity-edit-idrou" name="activity-edit-idrou">
+                                    <select class="form-control" id="activity-add-routine" name="activity-add-routine">
                                         <%
                                          for(int i=0;i<listofRoutineses.size();i++)
-                                         {
+                                        {
                                         %>
-                                        <option value="<%= listofRoutineses.get(i).getRid()%>"><%= listofRoutineses.get(i).getActivities()%></option>
+                                        <option value="<%= listofRoutineses.get(i).getRid()                  %>"><%= listofRoutineses.get(i).getRname()                 %></option>
                                         <% } %>
                                     </select>
                                 </div>
@@ -424,13 +431,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Time Begin</span>
                                     </div>
-                                    <input type="text" id="activity-edit-timebegin" name="activity-edit-timebegin" class="form-control">
+                                    <input type="text" id="activity-add-timebegin" name="activity-add-timebegin" class="form-control">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Time End</span>
                                     </div>
-                                     <input type="text" id="activity-edit-timeend" name="activity-edit-timend" class="form-control"> 
+                                     <input type="text" id="activity-add-timeend" name="activity-add-timend" class="form-control"> 
                                      <input type='hidden' name='activity-edit-idatv' id='activity-edit-idatv'>
                                 </div>
                                 <input type="submit" id="btn-add-activity-task" class="btn btn-outline-info btn-lg btn-block" value="Add">
@@ -466,24 +473,24 @@
                     <div class="modal-body">
                         <!------ Start card add task ----->
                         <div class= "card todo-block container mt-3">
-                            <form action="EditActivity" method="get">
-                                
+                            <form action="EditActivity" method="get" >
+                                <input type="hidden" id="editac-aid" name="aid">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Activity</span>
                                     </div>
-                                    <input type="text" id="activity-atv" name="activity-atv" class="form-control">
+                                    <input type="text" id="activity-atv_edit" name="activity-atv_edit23" class="form-control">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Category</span>
+                                        <span class="input-group-text">Routine</span>
                                     </div>
-                                    <select class="form-control" id="activity-add-routine" name="activity-add-routine">
+                                    <select class="form-control" id="activity-add-routssine" name="activity-add-routissne">
                                         <%
                                          for(int i=0;i<listofRoutineses.size();i++)
                                          {
                                         %>
-                                        <option value="<%= listofRoutineses.get(i).getRid()%>"><%= listofRoutineses.get(i).getActivities()%></option>
+                                        <option value="<%= listofRoutineses.get(i).getRid()%>"><%= listofRoutineses.get(i).getRname()      %></option>
                                         <% } %>
                                     </select>
                                 </div>
@@ -491,15 +498,15 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Time Begin</span>
                                     </div>
-                                    <input type="text" id="activity_timebegin" name="activity_timebegin" class="form-control">
+                                    <input type="text" id="activity_timebegin_edit" name="activity_timebegin" class="form-control">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Time End</span>
                                     </div>
-                                     <input type="text" id="activity_timeend" name="activity_timeend" class="form-control"> 
+                                     <input type="text" id="activity_timeend_edit" name="activity_timeend" class="form-control"> 
                                 </div>
-                                <input type="submit" id="btn-add-activity-task" class="btn btn-outline-info btn-lg btn-block" value="Add">
+                                <input type="submit" id="btn-add-activity-task" class="btn btn-outline-info btn-lg btn-block" value="Edit">
                             </form>
                         </div>
                         <!---   End card add task   -->

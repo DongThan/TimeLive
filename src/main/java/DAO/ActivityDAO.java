@@ -41,7 +41,7 @@ public class ActivityDAO {
         }
         if(listOfActivitysList==null){
             return 0;
-        }
+    }
         else{
             return listOfActivitysList.size();
         }
@@ -131,10 +131,10 @@ public class ActivityDAO {
             listOfActivitys= session.createQuery(qr).setParameter("userid", userid).getResultList();
             System.out.println(listOfActivitys.size());
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
         return listOfActivitys;
@@ -151,11 +151,11 @@ public class ActivityDAO {
             session.update(at);
             System.out.println("Update Activity sussess");
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             System.err.println("that bai");
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
     }
@@ -175,10 +175,10 @@ public class ActivityDAO {
                 System.err.println("Delete success");
             }
             // commit transaction
-            transaction.commit();
+            transaction.commit();session.close();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.rollback();
+                transaction.rollback();session.close();
             }
         }
     }
