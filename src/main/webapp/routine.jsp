@@ -74,6 +74,12 @@
                   <span>General</span>
                 </li>
                 <li class="sidebar-dropdown">
+                  <a href="index.jsp">
+                    <i class="fa fa fa-tachometer"></i>
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li class="sidebar-dropdown">
                   <a href="dashboard.jsp">
                     <i class="fa fa fa-tachometer"></i>
                     <span>Dashboard</span>
@@ -106,28 +112,7 @@
                   </a>
 
                 </li>
-                <li class="header-menu">
-                  <span>Extra</span>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-book"></i>
-                    <span>Account</span>
-                    <span class="badge badge-pill badge-primary">Beta</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-calendar"></i>
-                    <span>Calendar</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Setting</span>
-                  </a>
-                </li>
+                
             </ul>
           </div>
           <!-- sidebar-menu  -->

@@ -78,6 +78,12 @@
                   <span>General</span>
                 </li>
                 <li class="sidebar-dropdown">
+                  <a href="index.jsp">
+                    <i class="fa fa fa-tachometer"></i>
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li class="sidebar-dropdown">
                   <a href="dashboard.jsp">
                     <i class="fa fa fa-tachometer"></i>
                     <span>Dashboard</span>
