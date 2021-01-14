@@ -23,6 +23,7 @@ public class TagDAO {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			transaction = session.beginTransaction();
 			session.save(tag);
+                        System.out.println("Save Sussess");
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
